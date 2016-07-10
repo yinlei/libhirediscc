@@ -5,9 +5,19 @@
 
 #pragma once
 
-#include <hirediscc/client.h>
-#include <hirediscc/exception.h>
-#include <hirediscc/reply.h>
-#include <hirediscc/connection.h>
-#include <hirediscc/connectionpool.h>
+#include <stdexcept>
 
+namespace hirediscc {
+
+class Exception : public std::exception {
+public:
+    Exception() = default;
+
+    explicit Exception(int error);
+
+    virtual char const * what() const override;
+private:
+    int error_;
+};
+
+}

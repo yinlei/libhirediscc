@@ -77,5 +77,5 @@ int main() {
 	arrayTest();
 	clientSetGetTest();
 	clientEcho();
-	connectionPoolTest();
+	//connectionPoolTest();
 }

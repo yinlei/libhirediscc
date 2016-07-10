@@ -152,12 +152,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\hirediscc\client.h" />
+    <ClInclude Include="include\hirediscc\commandargs.h" />
+    <ClInclude Include="include\hirediscc\connection.h" />
+    <ClInclude Include="include\hirediscc\connectionpool.h" />
+    <ClInclude Include="include\hirediscc\details.h" />
+    <ClInclude Include="include\hirediscc\exception.h" />
     <ClInclude Include="include\hirediscc\hirediscc.h" />
     <ClInclude Include="include\hirediscc\mpmc_bounded_queue.h" />
+    <ClInclude Include="include\hirediscc\reply.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="source\hirediscc.cpp" />
+    <ClCompile Include="source\client.cpp" />
+    <ClCompile Include="source\connection.cpp" />
+    <ClCompile Include="source\connectionpool.cpp" />
+    <ClCompile Include="source\details.cpp" />
+    <ClCompile Include="source\exception.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
