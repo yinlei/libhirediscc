@@ -18,7 +18,11 @@ Client::Client(std::string const & host, uint16_t port, std::string const & pass
 }
 
 void Client::quit() {
-    connection_->excute<ReplyString>("QUIT").value();
+    connection_->excuteCommandWithArgs<ReplyString>("QUIT").value();
+}
+
+Pipelined Client::pipelined() {
+	return Pipelined(connection_);
 }
 
 Client::Client(ConnectionPtr conn)
@@ -30,11 +34,11 @@ Client::~Client() {
 }
 
 std::string Client::get(std::string const & key) {
-    return connection_->excute<ReplyString>("GET", key).value();
+    return connection_->excuteCommandWithArgs<ReplyString>("GET", key).value();
 }
 
 std::vector<std::string> Client::keys() {
-    return connection_->excute<ReplyArray<ReplyString>>("KEYS", "*").value();
+    return connection_->excuteCommandWithArgs<ReplyArray<ReplyString>>("KEYS", "*").value();
 }
 
 }

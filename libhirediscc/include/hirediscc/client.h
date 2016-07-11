@@ -9,6 +9,9 @@
 #include <vector>
 #include <memory>
 
+#include <hirediscc/pipelined.h>
+#include <hirediscc/commandargs.h>
+
 namespace hirediscc {
 
 class Connection;
@@ -39,23 +42,25 @@ public:
 
 	void quit();
 
+	Pipelined pipelined();
+
 private:
 	ConnectionPtr connection_;
 };
 
 template <typename T>
 inline void Client::set(std::string const & key, T value) {
-	connection_->excute<ReplyString>("SET", key, value);
+	connection_->excuteCommandWithArgs<ReplyString>("SET", key, value);
 }
 
-template<typename T>
+template <typename T>
 inline std::string Client::echo(T message) {
-	return connection_->excute<ReplyString>("ECHO", message).value();
+	return connection_->excuteCommandWithArgs<ReplyString>("ECHO", message).value();
 }
 
-template<typename T, typename... Args>
+template <typename T, typename... Args>
 inline void Client::del(T arg, Args const &... args) {
-	connection_->excute<ReplyInterger>("DEL", arg, args ...);
+	connection_->excuteCommandWithArgs<ReplyInterger>("DEL", arg, args ...);
 }
 
 }

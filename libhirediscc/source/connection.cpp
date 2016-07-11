@@ -23,11 +23,11 @@ Context::~Context() {
 
 Context& operator<<(Context &context,
     CommandArgs const &args) {
-    context.appendCommandArgs(args);
+    context.appendCommandWithArgs(args);
     return context;
 }
 
-void Context::appendCommandArgs(CommandArgs const & args) {
+void Context::appendCommandWithArgs(CommandArgs const & args) {
     std::vector<char const*> argv;
     argv.reserve(args.count());
 
@@ -46,6 +46,15 @@ void Context::appendCommandArgs(CommandArgs const & args) {
     if (ret != REDIS_OK) {
         throw Exception(ret);
     }
+}
+
+void Context::appendCommand(CommandArgs const & args) {
+	for (auto &itr : args) {
+		auto ret = ::redisAppendCommand(context_, itr.c_str());
+		if (ret != REDIS_OK) {
+			throw Exception(ret);
+		}
+	}
 }
 
 void Context::enableKeepAlive() {
@@ -79,11 +88,15 @@ void Connection::close() {
 }
 
 std::string Connection::ping() {
-	return excute<ReplyString>("PING").value();
+	return excuteCommandWithArgs<ReplyString>("PING").value();
 }
 
 std::string Connection::setAuth(std::string const &password) {
-	return excute<ReplyString>("AUTH", password).value();
+	return excuteCommandWithArgs<ReplyString>("AUTH", password).value();
+}
+
+void Connection::appendCommand(CommandArgs const &args) {
+	context_->appendCommand(args);
 }
 
 }

@@ -21,7 +21,7 @@ void conntectTimeoutTest() {
 void arrayTest() {
 	hirediscc::Connection connection;
 	connection.connect("127.0.0.1", 6379);
-	connection.excute<hirediscc::ReplyArray<hirediscc::ReplyString>>("KEYS", "*");
+	connection.excuteCommandWithArgs<hirediscc::ReplyArray<hirediscc::ReplyString>>("KEYS", "*");
 }
 
 void clientSetGetTest() {
@@ -71,11 +71,25 @@ void connectionPoolTest() {
 		pool[i].join();
 }
 
+void pipelinTest() {
+	hirediscc::Client client("127.0.0.1", 6379);
+
+	auto pipeline = client.pipelined();
+	for (int i = 0; i < 100; ++i)
+		pipeline.add("PING");
+
+	pipeline.excute();
+
+	for (int i = 0; i < 100; ++i)
+		pipeline.get<hirediscc::ReplyString>();
+}
+
 int main() {
 	pingTest();
-	conntectTimeoutTest();
+	//conntectTimeoutTest();
 	arrayTest();
 	clientSetGetTest();
 	clientEcho();
 	//connectionPoolTest();
+	pipelinTest();
 }

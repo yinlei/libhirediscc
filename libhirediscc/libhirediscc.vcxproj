@@ -160,9 +160,11 @@
     <ClInclude Include="include\hirediscc\exception.h" />
     <ClInclude Include="include\hirediscc\hirediscc.h" />
     <ClInclude Include="include\hirediscc\mpmc_bounded_queue.h" />
+    <ClInclude Include="include\hirediscc\pipelined.h" />
     <ClInclude Include="include\hirediscc\reply.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\hirediscc\pipelined.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="source\client.cpp" />
     <ClCompile Include="source\connection.cpp" />

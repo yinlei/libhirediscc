@@ -23,7 +23,9 @@ public:
 
     friend Context& operator<<(Context &context, CommandArgs const &args);
 
-    void appendCommandArgs(CommandArgs const &args);
+    void appendCommandWithArgs(CommandArgs const &args);
+
+	void appendCommand(CommandArgs const &args);
 
     void enableKeepAlive();
 
@@ -60,10 +62,10 @@ public:
     std::string setAuth(std::string const &password);
 
     template <typename R, typename T, typename... Args>
-    R excute(T arg, Args const &... args) {
+    R excuteCommandWithArgs(T arg, Args const &... args) {
         CommandArgs commandArgs;
         append(commandArgs, arg, args...);
-        context_->appendCommandArgs(commandArgs);
+        context_->appendCommandWithArgs(commandArgs);
         return context_->excute<R>();
     }
 
@@ -77,6 +79,13 @@ public:
         commandArgs << arg;
         append(commandArgs, args ...);
     }
+
+	template <typename R>
+	R excuteOnce() {
+		return context_->excute<R>();
+	}
+
+	void appendCommand(CommandArgs const &args);
 
 private:
     std::unique_ptr<Context> context_;

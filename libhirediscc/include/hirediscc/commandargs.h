@@ -9,7 +9,7 @@
 
 namespace hirediscc {
 
-	class CommandArgs {
+class CommandArgs {
 public:
     using Iterator = std::vector<std::string>::const_iterator;
 
